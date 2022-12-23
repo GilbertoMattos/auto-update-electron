@@ -2,7 +2,8 @@ const {app, BrowserWindow} = require('electron')
 const path = require('path')
 const {autoUpdater} = require('electron-updater')
 const log = require('electron-log')
-log.transports.file.resolvePath = () => path.join('/home/user/projetos/auto-update-electron', 'logs/main.log')
+const os = require("os");
+log.transports.file.resolvePath = () => path.join(os.homedir(), 'auto-update-electron.log')
 log.info('Versão da aplicação = ' + app.getVersion())
 let win;
 
@@ -13,30 +14,40 @@ function createWindow() {
 
 app.on('ready', () => {
     createWindow();
-    autoUpdater.checkForUpdatesAndNotify()
+    autoUpdater.checkForUpdatesAndNotify().then(function (r) {
+        return log.info('finalizou check update');
+    })
 })
 
 autoUpdater.on('update-available', () => {
-    console.log('update-available')
+    log.info('update-available')
 })
 
 autoUpdater.on('update-not-available', () => {
-    console.log('update-not-available')
+    log.info('update-not-available')
 })
 
 autoUpdater.on('checking-for-update', () => {
-    console.log('checking-for-update')
+    log.info('checking-for-update')
 })
 
 autoUpdater.on('download-progress', (progressTrack) => {
-    console.log('\n\ndownload-progress')
-    console.log(progressTrack)
+    log.info('\n\ndownload-progress')
+    log.info(progressTrack)
 })
 
 autoUpdater.on('update-downloaded', () => {
-    console.log('update-downloaded')
+    log.info('update-downloaded')
 })
 
-autoUpdater.on('error', () => {
-    console.log('Erro no auto-update')
+autoUpdater.on('appimage-filename-updated', () => {
+    log.info('appimage-filename-updated')
+})
+
+autoUpdater.on('update-cancelled', () => {
+    log.info('update-cancelled')
+})
+
+autoUpdater.on('error', (e) => {
+    log.info('Erro no auto-update '+ e)
 })

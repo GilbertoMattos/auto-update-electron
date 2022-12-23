@@ -1,6 +1,6 @@
 {
   "name": "auto-update-electron",
-  "version": "4.0.0",
+  "version": "1.0.0",
   "description": "",
   "main": "main.js",
   "scripts": {
@@ -9,6 +9,7 @@
     "package:all": "electron-builder -wl -p always",
     "package:linux": "electron-builder -l -p always",
     "package:win": "electron-builder -w -p always",
+    "win-cert": "electron-builder create-self-signed-cert -p fsj",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "build": {
@@ -18,9 +19,19 @@
         "provider": "github",
         "owner": "GilbertoMattos",
         "repo": "auto-update-electron",
-        "private": false
+        "private": false,
+        "token": "TOKEN_AQUI"
       }
-    ]
+    ],
+    "win": {
+      "certificateFile": "private/nfe.pfx",
+      "certificatePassword": "SaoJoao@2022nfe",
+      "verifyUpdateCodeSignature": false,
+      "publisherName": "fsj"
+    },
+    "linux": {
+      "category": "Utility"
+    }
   },
   "keywords": [],
   "author": "",
