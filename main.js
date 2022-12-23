@@ -1,4 +1,4 @@
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, dialog} = require('electron')
 const path = require('path')
 const {autoUpdater} = require('electron-updater')
 const log = require('electron-log')
@@ -12,15 +12,26 @@ function createWindow() {
     win.loadFile(path.join(__dirname, 'index.html'))
 }
 
+autoUpdater.autoDownload = false;
+
 app.on('ready', () => {
     createWindow();
-    autoUpdater.checkForUpdatesAndNotify().then(function (r) {
+    autoUpdater.checkForUpdates().then(function (r) {
         return log.info('finalizou check update');
     })
 })
 
 autoUpdater.on('update-available', () => {
     log.info('update-available')
+    dialog.showMessageBox({
+        type: 'info',
+        title: 'Nova versão disponível',
+        message: 'Deseja realizar o download da versão agora?',
+        buttons: ['Sim', 'Não']
+    }).then(result => {
+        let buttonIndex = result.response
+        if (buttonIndex === 0) autoUpdater.downloadUpdate()
+    });
 })
 
 autoUpdater.on('update-not-available', () => {
@@ -38,6 +49,15 @@ autoUpdater.on('download-progress', (progressTrack) => {
 
 autoUpdater.on('update-downloaded', () => {
     log.info('update-downloaded')
+    dialog.showMessageBox({
+        type: 'info',
+        title: 'Nova versão baixada',
+        message: 'Deseja instalar agora??',
+        buttons: ['Sim', 'Não']
+    }).then(result => {
+        let buttonIndex = result.response
+        if (buttonIndex === 0) autoUpdater.quitAndInstall(false, true)
+    });
 })
 
 autoUpdater.on('appimage-filename-updated', () => {
@@ -49,5 +69,5 @@ autoUpdater.on('update-cancelled', () => {
 })
 
 autoUpdater.on('error', (e) => {
-    log.info('Erro no auto-update '+ e)
+    log.info('Erro no auto-update ' + e)
 })

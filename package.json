@@ -1,6 +1,6 @@
 {
   "name": "auto-update-electron",
-  "version": "1.0.0",
+  "version": "1.0.6",
   "description": "",
   "main": "main.js",
   "scripts": {
@@ -19,18 +19,20 @@
         "provider": "github",
         "owner": "GilbertoMattos",
         "repo": "auto-update-electron",
-        "private": false,
-        "token": "TOKEN_AQUI"
+        "private": false
       }
     ],
     "win": {
-      "certificateFile": "private/nfe.pfx",
-      "certificatePassword": "SaoJoao@2022nfe",
+      "certificateFile": "private/fsj.pfx",
+      "certificatePassword": "",
       "verifyUpdateCodeSignature": false,
       "publisherName": "fsj"
     },
     "linux": {
-      "category": "Utility"
+      "category": "Utility",
+      "publish": [
+        "github"
+      ]
     }
   },
   "keywords": [],
