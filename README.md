@@ -20,7 +20,7 @@ Realizar a atualização da minha aplicação electron de forma automatica assim
 após os passos acima basta executar o script para compilação e publicação. Segue um exemplo abaixo (no meu caso utilizando Linux)
 - `GH_TOKEN=SEU_TOKEN_AQUI yarn package:all`
 
-`package:all`: Windows/Linux - definico no [package.json](package.json) na sessão de scripts
+`package:all`: Windows/Linux - definido no [package.json](package.json) na sessão de scripts
 
 _**Obs: Para publicação tem a possibilidade de informar o token no [package.json](package.json)  dentro de `"publish"`, porem tive problemas no processo de atualização, erro de autenticação com o github**_
 
@@ -31,7 +31,7 @@ _**Obs: Para publicação tem a possibilidade de informar o token no [package.js
 
 #### Linux
 
-Após gerar a release e enviar para o github`yarn package:linux`, tive problema por nao estar gerando o arquivo `latest-linux.yml`, e como resolvi?
+Após gerar a release e enviar para o github`yarn package:linux`, tive problema por não estar gerando o arquivo `latest-linux.yml`, e como resolvi?
 
 No [package.json](package.json), minha config para gerar a release no git hub estava desta forma
 
@@ -64,7 +64,7 @@ Cheguei na solução abaixo:
       ]
     }
 ```
-Defini que para linux que publicar apenas no github, com esta alteração começou gerar o arquivo `latest-linux.yml` e a atualização automático funcionou perfeitamente(no linux)
+Defini que para linux quero publicar apenas no github, com esta alteração começou gerar o arquivo `latest-linux.yml` e a atualização automática funcionou perfeitamente(no linux)
 
 #### Windows
 
@@ -82,7 +82,7 @@ para o Windows o .exe gerado precisa ser assinado utilizando um certificado, par
 
 `"win-cert": "electron-builder create-self-signed-cert -p fsj"`
 
-_**Obs: este script tive que executar em uma maquina windows, pode ser que aconteça um erro ainda mas vai gerar o .pfx**_ 
+_**Obs: este script tive que executar em uma maquina windows, pode ser que aconteça um erro, mas vai gerar o .pfx**_ 
 
 Após gerar o .pfx adicicionar na pasta `private` dentro do projeto, verificar a config para o windows no [package.json](package.json)
 ```json
